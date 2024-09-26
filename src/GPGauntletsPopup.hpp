@@ -2,7 +2,9 @@
 
 using namespace geode::prelude;
 
-typedef MiniFunction<void()> GauntletCallback;
+#define NUM_GAUNTLETS 52
+
+typedef std::function<void()> GauntletCallback;
 
 class TableNode : public CCNode {
 protected:
@@ -28,18 +30,9 @@ public:
 
 class GPGauntletsPopup : public Popup<GauntletCallback> {
 protected:
-    CCArray* m_gauntletButtons;
+    std::vector<bool> m_enabledGauntlets;
 
     bool setup(GauntletCallback) override;
 public:
-    inline static std::vector<bool> projectedIDs = {
-        false, false, false, false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false, false, false, false
-    };
-
     static GPGauntletsPopup* create(GauntletCallback);
-
-    ~GPGauntletsPopup() override;
 };
