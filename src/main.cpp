@@ -43,6 +43,9 @@ class $modify(GPGauntletSelectLayer, GauntletSelectLayer) {
         auto f = m_fields.self();
         if (f->m_timeButton) f->m_timeButton->setEnabled(false);
 
+        auto pageNav = getChildByID("dasshu.gauntletredesign/page-navigation");
+        if (pageNav) pageNav->removeFromParent();
+
         auto glm = GameLevelManager::sharedState();
         std::vector<bool> projectedIDs;
         auto newSavedGauntlets = CCDictionary::create();
