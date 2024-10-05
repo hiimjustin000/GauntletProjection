@@ -4,7 +4,7 @@ using namespace geode::prelude;
 
 #define NUM_GAUNTLETS 52
 
-typedef std::function<void()> GauntletCallback;
+typedef std::function<void()> const& GauntletCallback;
 
 class TableNode : public CCNode {
 protected:

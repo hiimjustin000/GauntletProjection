@@ -21,10 +21,6 @@ class $modify(GPGauntletSelectLayer, GauntletSelectLayer) {
                 m_leftButton->setVisible(false);
                 m_rightButton->setVisible(false);
                 sender->setVisible(false);
-                auto bottomRightMenu = getChildByID("bottom-right-menu");
-                if (bottomRightMenu) for (auto child : CCArrayExt<CCNode*>(bottomRightMenu->getChildren())) {
-                    if (child != m_refreshButton) child->removeFromParent(); // gdutils
-                }
                 setupGauntlets();
                 m_leftButton->setVisible(true);
                 m_rightButton->setVisible(true);

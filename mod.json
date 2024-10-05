@@ -1,11 +1,11 @@
 {
-    "geode": "3.7.1",
+    "geode": "3.8.1",
     "gd": {
         "android": "2.206",
         "win": "2.206",
         "mac": "2.206"
     },
-    "version": "v1.0.1",
+    "version": "v1.0.2",
     "id": "hiimjustin000.gauntlet_projection",
     "name": "Gauntlet Projection",
     "developer": "hiimjustin000",
