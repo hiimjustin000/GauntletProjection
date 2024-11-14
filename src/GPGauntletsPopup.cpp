@@ -1,5 +1,7 @@
 #include "GPGauntletsPopup.hpp"
 
+using namespace geode::prelude;
+
 TableNode* TableNode::create(int columns, int rows) {
     auto ret = new TableNode();
     if (ret->init(columns, rows)) {
@@ -81,7 +83,7 @@ bool GPGauntletsPopup::setup(GauntletCallback callback) {
     m_enabledGauntlets = Mod::get()->getSavedValue("projected-ids", std::vector<bool>(NUM_GAUNTLETS, false));
     m_enabledGauntlets.resize(NUM_GAUNTLETS, false);
 
-    auto savedGauntlets = GameLevelManager::sharedState()->m_savedGauntlets;
+    auto savedGauntlets = GameLevelManager::get()->m_savedGauntlets;
     auto table = TableNode::create(6, (NUM_GAUNTLETS + 5 - savedGauntlets->count()) / 6);
     table->setColumnLayout(ColumnLayout::create()->setGap(7.5f)->setAxisReverse(true));
     table->setRowLayout(RowLayout::create()->setAxisAlignment(AxisAlignment::Even));
@@ -91,17 +93,17 @@ bool GPGauntletsPopup::setup(GauntletCallback callback) {
     m_mainLayer->addChild(table);
 
     for (int i = 0; i < NUM_GAUNTLETS; i++) {
-        if (!savedGauntlets->objectForKey(std::to_string(i + 1))) {
-            auto gauntletSprite = GauntletSprite::create((GauntletType)(i + 1), false);
-            gauntletSprite->setScale(0.7f);
-            auto innerSprite = static_cast<CCSprite*>(gauntletSprite->getChildren()->objectAtIndex(0));
+        if (savedGauntlets->objectForKey(std::to_string(i + 1))) continue;
+
+        auto gauntletSprite = GauntletSprite::create((GauntletType)(i + 1), false);
+        gauntletSprite->setScale(0.7f);
+        auto innerSprite = gauntletSprite->getChildByType<CCSprite>(0);
+        innerSprite->setColor(m_enabledGauntlets[i] ? ccColor3B { 255, 255, 255 } : ccColor3B { 125, 125, 125 });
+        auto gauntletButton = CCMenuItemExt::createSpriteExtra(gauntletSprite, [this, i, innerSprite](auto) {
+            m_enabledGauntlets[i] = !m_enabledGauntlets[i];
             innerSprite->setColor(m_enabledGauntlets[i] ? ccColor3B { 255, 255, 255 } : ccColor3B { 125, 125, 125 });
-            auto gauntletButton = CCMenuItemExt::createSpriteExtra(gauntletSprite, [this, i, innerSprite](auto) {
-                m_enabledGauntlets[i] = !m_enabledGauntlets[i];
-                innerSprite->setColor(m_enabledGauntlets[i] ? ccColor3B { 255, 255, 255 } : ccColor3B { 125, 125, 125 });
-            });
-            table->addButton(gauntletButton);
-        }
+        });
+        table->addButton(gauntletButton);
     }
 
     table->updateAllLayouts();
@@ -111,7 +113,7 @@ bool GPGauntletsPopup::setup(GauntletCallback callback) {
         callback();
         onClose(nullptr);
     });
-    confirmButton->setPosition(175.0f, 25.0f);
+    confirmButton->setPosition({ 175.0f, 25.0f });
     m_buttonMenu->addChild(confirmButton);
 
     return true;

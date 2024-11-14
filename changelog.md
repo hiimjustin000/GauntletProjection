@@ -1,4 +1,7 @@
 # Gauntlet Projection Changelog
+## v1.0.3-beta.1 (2024-11-13)
+- Ported to Geometry Dash v2.207
+
 ## v1.0.2 (2024-10-05)
 - Fixed GDUtils particle info button
 
